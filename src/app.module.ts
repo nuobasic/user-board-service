@@ -3,6 +3,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { Users } from './users/entitiy/Users';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -12,13 +14,13 @@ import { AppService } from './app.service';
       useFactory: async (configService: ConfigService) => {
         return {
           type: 'mysql',
-          port: 3306,
+          port: +configService.get('DB_PORT'),
           host: configService.get('DB_HOST'),
           username: configService.get('DB_USERNAME'),
           password: configService.get('DB_PASSWORD'),
           database: configService.get('DB_DATABASE'),
           migrations: [__dirname + '/src/migrations/*.ts'],
-          entities: [],
+          entities: [Users],
           autoLoadEntities: true,
           synchronize: true,
           logging: true,
@@ -26,6 +28,7 @@ import { AppService } from './app.service';
         };
       },
     }),
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
