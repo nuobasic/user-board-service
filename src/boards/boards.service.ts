@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { CreateBoardDto } from './dto/create-baord.dto';
 import { Boards } from './entity/Boards';
 import * as bcrypt from 'bcrypt';
+import { RequestBoardDto } from './dto/request-board.dto';
 
 @Injectable()
 export class BoardsService {
@@ -38,5 +39,15 @@ export class BoardsService {
     return await this.boardsRepository.find({
       order: { createAt: 'DESC' },
     });
+  }
+
+  async deleteBoard(boardId: number, { password }: RequestBoardDto) {
+    const board = await this.boardsRepository.findOne({
+      where: { boardId },
+    });
+    //생성 비밀번호와 입력 비밀번호가 같아야 삭제가 가능합니다.
+    if (board && (await bcrypt.compare(password, board.password))) {
+      return this.boardsRepository.softDelete(boardId);
+    }
   }
 }

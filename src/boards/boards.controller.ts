@@ -1,6 +1,15 @@
-import { Controller, Post, Body, HttpCode, Get } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  HttpCode,
+  Get,
+  Delete,
+  Param,
+} from '@nestjs/common';
 import { BoardsService } from './boards.service';
 import { CreateBoardDto } from './dto/create-baord.dto';
+import { RequestBoardDto } from './dto/request-board.dto';
 import { Boards } from './entity/Boards';
 
 @Controller('boards')
@@ -28,5 +37,17 @@ export class BoardsController {
   @Get()
   async getAllBoard(): Promise<Boards[]> {
     return await this.boardsService.ageAllBoard();
+  }
+  @HttpCode(200)
+  @Delete(':boardId')
+  async getBoard(
+    @Param('boardId') boardId: number,
+    @Body() requestBoardDto: RequestBoardDto,
+  ) {
+    await this.boardsService.deleteBoard(boardId, requestBoardDto);
+    return {
+      statusCode: 200,
+      message: '삭제 성공',
+    };
   }
 }
