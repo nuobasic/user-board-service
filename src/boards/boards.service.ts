@@ -42,8 +42,10 @@ export class BoardsService {
   }
 
   // 게시판 최신순 조회
-  async ageAllBoard(): Promise<Boards[]> {
+  async ageAllBoard(offset: number): Promise<Boards[]> {
     return await this.boardsRepository.find({
+      take: 20,
+      skip: offset,
       order: { createAt: 'DESC' },
     });
   }

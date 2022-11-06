@@ -7,9 +7,11 @@ import {
   Delete,
   Param,
   Put,
+  Query,
+  ParseIntPipe,
 } from '@nestjs/common';
-import { GetUser } from 'src/users/decorator/user.decorator';
-import { Users } from 'src/users/entitiy/Users';
+import { GetUser } from '../users/decorator/user.decorator';
+import { Users } from '../users/entitiy/Users';
 import { BoardsService } from './boards.service';
 import { CreateBoardDto } from './dto/create-baord.dto';
 import { RequestBoardDto } from './dto/request-board.dto';
@@ -42,8 +44,10 @@ export class BoardsController {
    */
   @HttpCode(200)
   @Get()
-  async getAllBoard(): Promise<Boards[]> {
-    return await this.boardsService.ageAllBoard();
+  async getAllBoard(
+    @Query('offset', ParseIntPipe) offset: number,
+  ): Promise<Boards[]> {
+    return await this.boardsService.ageAllBoard(offset);
   }
 
   /**
