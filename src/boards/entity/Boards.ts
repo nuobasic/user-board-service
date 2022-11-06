@@ -1,5 +1,12 @@
-import { DateColumns } from '../../dateColumm/dateColumns';
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+  DeleteDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { MaxLength, MinLength } from 'class-validator';
 import { Users } from '../../users/entitiy/Users';
 
@@ -20,9 +27,14 @@ export class Boards {
   @MinLength(6)
   password: string;
 
-  @Column(() => DateColumns, { prefix: false })
-  dateColums: DateColumns;
-
   @ManyToOne(() => Users, (users) => users.boards)
   users: Users;
+  @CreateDateColumn()
+  createAt: Date;
+
+  @UpdateDateColumn()
+  updateAt: Date;
+
+  @DeleteDateColumn()
+  deleteAt: Date;
 }
