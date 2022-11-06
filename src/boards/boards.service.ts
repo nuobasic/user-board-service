@@ -10,6 +10,7 @@ import { Boards } from './entity/Boards';
 import * as bcrypt from 'bcrypt';
 import { RequestBoardDto } from './dto/request-board.dto';
 import { UpdateBoardDto } from './dto/update.board';
+import { Users } from 'src/users/entitiy/Users';
 
 @Injectable()
 export class BoardsService {
@@ -18,7 +19,7 @@ export class BoardsService {
     private boardsRepository: Repository<Boards>,
   ) {}
 
-  async createBoard(createBoardDto: CreateBoardDto) {
+  async createBoard(createBoardDto: CreateBoardDto, users: Users) {
     const { title, content, password } = createBoardDto;
     // 비밀번호 체크 정규식
     const passwordRules = /(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}/.test(password);
@@ -34,14 +35,17 @@ export class BoardsService {
       title,
       content,
       password: hashePassword,
+      users,
     });
     const result = await this.boardsRepository.save(board);
     return result;
   }
 
   // 게시판 최신순 조회
-  async ageAllBoard(): Promise<Boards[]> {
+  async ageAllBoard(offset: number): Promise<Boards[]> {
     return await this.boardsRepository.find({
+      take: 20,
+      skip: offset,
       order: { createAt: 'DESC' },
     });
   }
