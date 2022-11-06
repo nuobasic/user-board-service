@@ -32,4 +32,11 @@ export class BoardsService {
     const result = await this.boardsRepository.save(board);
     return result;
   }
+
+  // 게시판 최신순 조회
+  async ageAllBoard(): Promise<Boards[]> {
+    return await this.boardsRepository.find({
+      order: { createAt: 'DESC' },
+    });
+  }
 }

@@ -1,6 +1,7 @@
-import { Controller, Post, Body, HttpCode } from '@nestjs/common';
+import { Controller, Post, Body, HttpCode, Get } from '@nestjs/common';
 import { BoardsService } from './boards.service';
 import { CreateBoardDto } from './dto/create-baord.dto';
+import { Boards } from './entity/Boards';
 
 @Controller('boards')
 export class BoardsController {
@@ -16,5 +17,16 @@ export class BoardsController {
   @Post()
   async createBoard(@Body() createBoardDto: CreateBoardDto) {
     return await this.boardsService.createBoard(createBoardDto);
+  }
+
+  /**
+   * @url Get 'api/boards'
+   * @description 게시판 조회
+   * @returns 전체 게시판 조호;
+   */
+  @HttpCode(200)
+  @Get()
+  async getAllBoard(): Promise<Boards[]> {
+    return await this.boardsService.ageAllBoard();
   }
 }
