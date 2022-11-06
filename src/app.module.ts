@@ -5,6 +5,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { Users } from './users/entitiy/Users';
 import { UsersModule } from './users/users.module';
+import { BoardsModule } from './boards/boards.module';
+import { Boards } from './boards/entity/Boards';
 
 @Module({
   imports: [
@@ -20,7 +22,7 @@ import { UsersModule } from './users/users.module';
           password: configService.get('DB_PASSWORD'),
           database: configService.get('DB_DATABASE'),
           migrations: [__dirname + '/src/migrations/*.ts'],
-          entities: [Users],
+          entities: [Users, Boards],
           autoLoadEntities: true,
           synchronize: true,
           logging: true,
