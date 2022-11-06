@@ -31,6 +31,7 @@ import { Boards } from './boards/entity/Boards';
       },
     }),
     UsersModule,
+    BoardsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
