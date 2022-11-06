@@ -1,6 +1,6 @@
 import { DateColumns } from '../../dateColumm/dateColumns';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { Boards } from 'src/boards/entity/Boards';
+import { Boards } from '../../boards/entity/Boards';
 
 @Entity('users')
 export class Users {

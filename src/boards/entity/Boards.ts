@@ -1,13 +1,7 @@
 import { DateColumns } from '../../dateColumm/dateColumns';
-import {
-  Column,
-  Entity,
-  ManyToOne,
-  OneToMany,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { MaxLength, MinLength } from 'class-validator';
-import { Users } from 'src/users/entitiy/Users';
+import { Users } from '../../users/entitiy/Users';
 
 @Entity('boards')
 export class Boards {
