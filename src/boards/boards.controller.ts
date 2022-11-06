@@ -6,10 +6,12 @@ import {
   Get,
   Delete,
   Param,
+  Put,
 } from '@nestjs/common';
 import { BoardsService } from './boards.service';
 import { CreateBoardDto } from './dto/create-baord.dto';
 import { RequestBoardDto } from './dto/request-board.dto';
+import { UpdateBoardDto } from './dto/update.board';
 import { Boards } from './entity/Boards';
 
 @Controller('boards')
@@ -38,6 +40,13 @@ export class BoardsController {
   async getAllBoard(): Promise<Boards[]> {
     return await this.boardsService.ageAllBoard();
   }
+
+  /**
+   * @url Delete 'api/boards/:boardId'
+   * @Body requestBoardDto {passeord}
+   * @description 게시판 삭제 기능
+   * @returns 게시판 삭제
+   */
   @HttpCode(200)
   @Delete(':boardId')
   async getBoard(
@@ -48,6 +57,30 @@ export class BoardsController {
     return {
       statusCode: 200,
       message: '삭제 성공',
+    };
+  }
+  /**
+   * @url Put 'api/boards/:boardId'
+   * @Body requestBoardDto {passeord}
+   * @Body updateBoardDto {content, title}
+   * @description 게시판 수정기능
+   * @returns 게시판 수정
+   */
+  @HttpCode(200)
+  @Put(':boardId')
+  async updateBoard(
+    @Param('boardId') boardId: number,
+    @Body() requestBoardDto: RequestBoardDto,
+    @Body() updateBoardDto: UpdateBoardDto,
+  ) {
+    await this.boardsService.updateBoard(
+      boardId,
+      requestBoardDto,
+      updateBoardDto,
+    );
+    return {
+      statusCode: 200,
+      message: '변경 성공',
     };
   }
 }
